@@ -1,9 +1,6 @@
-import flask
-
-from app import app
 from app.models import DataRow
 from app import db, app
-from flask import abort, request
+from flask import request
 import os
 
 
@@ -29,9 +26,9 @@ def inputreg():
 @app.route('/showTime', methods=['GET'])
 def showtime():
     try:
-        json_data = flask.request.json
-        if json_data['key_input'] == os.environ['INPUTKEY']:
-            data = DataRow.query.all()
-            return f"Data  : {data}"
+        data = request.args
+        if data.get('key_input') == os.environ['INPUTKEY']:
+            datarows = DataRow.query.all()
+            return f"Data  \n: {datarows}"
     except TypeError:
         return "Not Today Yet"
